@@ -33,6 +33,10 @@ PODS:
     - React-Core
     - UMCore
     - UMImageLoaderInterface
+  - EXImagePicker (8.3.0):
+    - UMCore
+    - UMFileSystemInterface
+    - UMPermissionsInterface
   - EXKeepAwake (8.2.1):
     - UMCore
   - EXLinearGradient (8.2.1):
@@ -342,6 +346,8 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/callinvoker (= 0.62.2)
+  - RNCAsyncStorage (1.11.0):
+    - React
   - RNFS (2.16.6):
     - React
   - RNGestureHandler (1.6.1):
@@ -381,6 +387,7 @@ DEPENDENCIES:
   - EXGL (from `../node_modules/expo-gl/ios`)
   - EXGL_CPP (from `../node_modules/expo-gl-cpp/cpp`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
+  - EXImagePicker (from `../node_modules/expo-image-picker/ios`)
   - EXKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - EXLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - EXLocation (from `../node_modules/expo-location/ios`)
@@ -433,6 +440,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/callinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -486,6 +494,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-gl-cpp/cpp"
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
+  EXImagePicker:
+    :path: "../node_modules/expo-image-picker/ios"
   EXKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   EXLinearGradient:
@@ -546,6 +556,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -596,6 +608,7 @@ SPEC CHECKSUMS:
   EXGL: 0c32d89258a134c924b21aca6ffacadc8909599f
   EXGL_CPP: 2c6b8517bd3b95c0ecc064ae9d13a2b1ccbee676
   EXImageLoader: 8366cb1a7d207a241a1bfaa4c5ab4859cf72d507
+  EXImagePicker: 2d94621fecfbd3cf2384e2e7d31ac661ed368de2
   EXKeepAwake: 1c77f2d31eafaea3410c00957669f306f340b843
   EXLinearGradient: d25940ede1e798882f57715cff9edb4075d95e2d
   EXLocation: c50022a5a829bad7a621d42eaecc60e171d8efa7
@@ -634,6 +647,7 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
+  RNCAsyncStorage: db711e29e5e0500d9bd21aa0c2e397efa45302b1
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
