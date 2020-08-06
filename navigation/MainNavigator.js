@@ -1,9 +1,10 @@
 import React from "react";
+import { Platform } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import { Platform } from "react-native";
 
 import CaptureScreen from "../screens/dog/CaptureScreen";
 import DogInfoScreen from "../screens/dog/DogInfoScreen";
@@ -87,64 +88,68 @@ const ProfileNavigator = createStackNavigator(
   }
 );
 
-const TabNavigator = createBottomTabNavigator(
-  {
-    Capture: {
-      screen: CaptureNavigator,
-      navigationOptions: {
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons name="ios-camera" size={24} color={tabInfo.tintColor} />
-          );
-        },
-      },
-    },
-    Favorites: {
-      screen: FavoritesNavigator,
-      navigationOptions: {
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons name="ios-star" size={24} color={tabInfo.tintColor} />
-          );
-        },
-      },
-    },
-    DogInfo: {
-      screen: DogInfoNavigator,
-      navigationOptions: {
-        tabBarIcon: (tabInfo) => {
-          return (
-            <FontAwesome5 name="dog" size={24} color={tabInfo.tintColor} />
-          );
-        },
-      },
-    },
-    Groups: {
-      screen: GroupsNavigator,
-      navigationOptions: {
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons name="ios-people" size={32} color={tabInfo.tintColor} />
-          );
-        },
-      },
-    },
-    Profile: {
-      screen: ProfileNavigator,
-      navigationOptions: {
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons name="ios-person" size={24} color={tabInfo.tintColor} />
-          );
-        },
+const tabScreenConfig = {
+  Capture: {
+    screen: CaptureNavigator,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons name="ios-camera" size={28} color={tabInfo.tintColor} />
+        );
       },
     },
   },
-  {
-    tabBarOptions: {
-      activeTintColor: Colors.secondary,
+  Favorites: {
+    screen: FavoritesNavigator,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <Ionicons name="ios-star" size={24} color={tabInfo.tintColor} />;
+      },
     },
-  }
-);
+  },
+  DogInfo: {
+    screen: DogInfoNavigator,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return <FontAwesome5 name="dog" size={24} color={tabInfo.tintColor} />;
+      },
+    },
+  },
+  Groups: {
+    screen: GroupsNavigator,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons name="ios-people" size={28} color={tabInfo.tintColor} />
+        );
+      },
+    },
+  },
+  Profile: {
+    screen: ProfileNavigator,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons name="ios-person" size={24} color={tabInfo.tintColor} />
+        );
+      },
+    },
+  },
+};
+
+const TabNavigator =
+  Platform.OS === "android"
+    ? createMaterialBottomTabNavigator(tabScreenConfig, {
+        activeColor: Colors.white,
+        shifting: true,
+        barStyle: {
+          backgroundColor: Colors.primary,
+        },
+      })
+    : createBottomTabNavigator(tabScreenConfig, {
+        tabBarOptions: {
+          activeTintColor: Colors.primary,
+        },
+      });
 
 export default createAppContainer(TabNavigator);

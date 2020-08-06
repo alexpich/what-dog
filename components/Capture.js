@@ -53,7 +53,7 @@ const Capture = (props) => {
   const [loading, setLoading] = useState(false);
 
   const selectImage = async () => {
-    console.log("asdf");
+    console.log("Selecting Image...");
     try {
       let response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -64,32 +64,17 @@ const Capture = (props) => {
       if (!response.cancelled) {
         const source = { uri: response.uri };
         setImage(source);
+        console.log("Image uploaded...");
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const imageToTensor = (rawImageData) => {
-    const TO_UINT8ARRAY = true;
-    const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY);
-    // Drop the alpha channel info for mobilenet
-    const buffer = new Uint8Array(width * height * 3);
-    let offset = 0; // offset into original data
-    for (let i = 0; i < buffer.length; i += 3) {
-      buffer[i] = data[offset];
-      buffer[i + 1] = data[offset + 1];
-      buffer[i + 2] = data[offset + 2];
-
-      offset += 4;
-    }
-
-    return tf.tensor3d(buffer, [height, width, 3]);
-  };
-
   const classifyImage = async () => {
     try {
       setLoading(true);
+
       const fileUri = Image.resolveAssetSource(image);
       const imgB64 = await FileSystem.readAsStringAsync(fileUri.uri, {
         encoding: FileSystem.EncodingType.Base64,
