@@ -95,21 +95,9 @@ const Capture = () => {
       if (!response.cancelled) {
         const source = { uri: response.uri };
         setImage(source);
-
-        // image.classifyImage();
       }
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const identifyBreed = async () => {
-    // const prediction = await model.classify(imageRef.current);
-    // const results = await model.classify(image);
-    if (image) {
-      const prediction = await model.classifyImage(image.uri);
-      // setPredictions(prediction);
-      // console.log(prediction);
     }
   };
 
@@ -147,10 +135,6 @@ const Capture = () => {
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          {/* <Button
-            title="Pick an image from camera roll"
-            onPress={selectImage}
-          /> */}
           <TouchableOpacity onPress={selectImage}>
             {isModelReady && !image && (
               <Text>Pick an image from camera roll</Text>
@@ -164,9 +148,6 @@ const Capture = () => {
             )}
           </TouchableOpacity>
           <View>
-            {isModelReady && image && (
-              <Button title="Identify" onPress={identifyBreed} />
-            )}
             {isModelReady && image && predictions && (
               <SafeAreaView>
                 <FlatList
