@@ -1,21 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+
 import CaptureScreen from "./screens/dog/CaptureScreen";
+import CaptureNavigator from "./navigation/CaptureNavigator";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <CaptureScreen />
-    </View>
-  );
+  return <CaptureNavigator />;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

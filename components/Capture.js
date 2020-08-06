@@ -8,8 +8,9 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   FlatList,
-  Button,
   SafeAreaView,
+  Platform,
+  TouchableNativeFeedback,
 } from "react-native";
 
 import * as tf from "@tensorflow/tfjs";
@@ -23,6 +24,8 @@ import * as Permissions from "expo-permissions";
 import * as jpeg from "jpeg-js";
 
 import * as FileSystem from "expo-file-system";
+
+import Colors from "../constants/Colors";
 
 getPermissionAsync = async () => {
   if (Constants.platform.ios) {
@@ -39,7 +42,7 @@ const Item = ({ title }) => (
   </View>
 );
 
-const Capture = () => {
+const Capture = (props) => {
   tf.setBackend("cpu");
 
   const [isTfReady, setIsTfReady] = useState(false);
@@ -49,6 +52,7 @@ const Capture = () => {
   const [predictions, setPredictions] = useState([]);
 
   const selectImage = async () => {
+    console.log("asdf");
     try {
       let response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -130,6 +134,7 @@ const Capture = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="default" />
       {isTfReady && isModelReady ? (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -154,7 +159,7 @@ const Capture = () => {
           )}
         </View>
       ) : (
-        <Text>Loading...</Text>
+        <ActivityIndicator size="small" color={Colors.secondary} />
       )}
     </View>
   );
