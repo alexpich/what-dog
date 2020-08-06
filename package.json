@@ -14,6 +14,7 @@
     "expo": "~38.0.8",
     "expo-camera": "~8.3.1",
     "expo-constants": "~9.1.1",
+    "expo-file-system": "~9.0.1",
     "expo-gl": "~8.3.1",
     "expo-gl-cpp": "~8.3.1",
     "expo-image-picker": "~8.3.0",
@@ -33,9 +34,10 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.4.0",
     "react-navigation-header-buttons": "^5.0.0",
+    "react-navigation-stack": "^2.8.2",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
-    "expo-file-system": "~9.0.1"
+    "@react-native-community/masked-view": "0.1.10"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
