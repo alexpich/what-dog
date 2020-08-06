@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 import * as tf from "@tensorflow/tfjs";
-import { fetch } from "@tensorflow/tfjs-react-native";
+import { decodeJpeg } from "@tensorflow/tfjs-react-native";
 import * as mobilenet from "@tensorflow-models/mobilenet";
 
 import * as ImagePicker from "expo-image-picker";
@@ -21,6 +21,8 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 
 import * as jpeg from "jpeg-js";
+
+import * as FileSystem from "expo-file-system";
 
 getPermissionAsync = async () => {
   if (Constants.platform.ios) {
@@ -46,6 +48,23 @@ const Capture = () => {
   const [image, setImage] = useState(null);
   const [predictions, setPredictions] = useState([]);
 
+  const selectImage = async () => {
+    try {
+      let response = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: false,
+        aspect: [4, 3],
+      });
+
+      if (!response.cancelled) {
+        const source = { uri: response.uri };
+        setImage(source);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const imageToTensor = (rawImageData) => {
     const TO_UINT8ARRAY = true;
     const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY);
@@ -65,30 +84,17 @@ const Capture = () => {
 
   const classifyImage = async () => {
     try {
-      const imageAssetPath = Image.resolveAssetSource(image);
-      const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
-      const rawImageData = await response.arrayBuffer();
-      const imageTensor = imageToTensor(rawImageData);
+      const fileUri = Image.resolveAssetSource(image);
+      const imgB64 = await FileSystem.readAsStringAsync(fileUri.uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      const imgBuffer = tf.util.encodeString(imgB64, "base64").buffer;
+      const raw = new Uint8Array(imgBuffer);
+      const imageTensor = decodeJpeg(raw);
       const result = await model.classify(imageTensor);
+
       setPredictions(result);
       console.log(result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const selectImage = async () => {
-    try {
-      let response = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: false,
-        aspect: [4, 3],
-      });
-
-      if (!response.cancelled) {
-        const source = { uri: response.uri };
-        setImage(source);
-      }
     } catch (error) {
       console.log(error);
     }
@@ -123,7 +129,7 @@ const Capture = () => {
   }, [image]);
 
   return (
-    <View>
+    <View style={styles.container}>
       {isTfReady && isModelReady ? (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -136,17 +142,16 @@ const Capture = () => {
               <Image source={image} style={{ width: 200, height: 200 }} />
             )}
           </TouchableOpacity>
-          <View>
-            {isModelReady && image && predictions && (
-              <SafeAreaView>
-                <FlatList
-                  data={predictions}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item.className}
-                />
-              </SafeAreaView>
-            )}
-          </View>
+          {isModelReady && image && predictions && (
+            <SafeAreaView style={styles.listHeight}>
+              <FlatList
+                data={predictions}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.className}
+                height
+              />
+            </SafeAreaView>
+          )}
         </View>
       ) : (
         <Text>Loading...</Text>
@@ -154,5 +159,17 @@ const Capture = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  listHeight: {
+    height: 50,
+  },
+});
 
 export default Capture;
