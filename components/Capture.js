@@ -45,12 +45,6 @@ const Capture = () => {
   const [model, setModel] = useState(null);
   const [image, setImage] = useState(null);
   const [predictions, setPredictions] = useState([]);
-  const imageRef = useRef();
-
-  const loadModel = async () => {
-    const mobilenetModel = await mobilenet.load();
-    setModel(mobilenetModel);
-  };
 
   const imageToTensor = (rawImageData) => {
     const TO_UINT8ARRAY = true;
@@ -69,16 +63,15 @@ const Capture = () => {
     return tf.tensor3d(buffer, [height, width, 3]);
   };
 
-  const classifyImage = async (i) => {
+  const classifyImage = async () => {
     try {
-      console.log(image);
       const imageAssetPath = Image.resolveAssetSource(image);
       const response = await fetch(imageAssetPath.uri, {}, { isBinary: true });
       const rawImageData = await response.arrayBuffer();
       const imageTensor = imageToTensor(rawImageData);
-      const predictions = await model.classify(imageTensor);
-      setPredictions(predictions);
-      console.log(predictions);
+      const result = await model.classify(imageTensor);
+      setPredictions(result);
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -125,7 +118,7 @@ const Capture = () => {
 
   useEffect(() => {
     if (image) {
-      classifyImage(image);
+      classifyImage();
     }
   }, [image]);
 
@@ -140,11 +133,7 @@ const Capture = () => {
               <Text>Pick an image from camera roll</Text>
             )}
             {image && (
-              <Image
-                source={image}
-                style={{ width: 200, height: 200 }}
-                ref={imageRef}
-              />
+              <Image source={image} style={{ width: 200, height: 200 }} />
             )}
           </TouchableOpacity>
           <View>
