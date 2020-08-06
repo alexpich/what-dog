@@ -50,6 +50,7 @@ const Capture = (props) => {
   const [model, setModel] = useState(null);
   const [image, setImage] = useState(null);
   const [predictions, setPredictions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const selectImage = async () => {
     console.log("asdf");
@@ -88,6 +89,7 @@ const Capture = (props) => {
 
   const classifyImage = async () => {
     try {
+      setLoading(true);
       const fileUri = Image.resolveAssetSource(image);
       const imgB64 = await FileSystem.readAsStringAsync(fileUri.uri, {
         encoding: FileSystem.EncodingType.Base64,
@@ -101,6 +103,8 @@ const Capture = (props) => {
       console.log(result);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,7 +121,6 @@ const Capture = (props) => {
     })();
     setIsTfReady(true);
     (async function checkModelReady() {
-      // await mobilenet.load();
       const mobilenetModel = await mobilenet.load();
       setModel(mobilenetModel);
     })();
@@ -149,12 +152,16 @@ const Capture = (props) => {
           </TouchableOpacity>
           {isModelReady && image && predictions && (
             <SafeAreaView style={styles.listHeight}>
-              <FlatList
-                data={predictions}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.className}
-                height
-              />
+              {loading === true ? (
+                <ActivityIndicator size="small" color={Colors.secondary} />
+              ) : (
+                <FlatList
+                  data={predictions}
+                  renderItem={renderItem}
+                  keyExtractor={(item) => item.className}
+                  height
+                />
+              )}
             </SafeAreaView>
           )}
         </View>
