@@ -85,7 +85,6 @@ const Capture = (props) => {
       const result = await model.classify(imageTensor);
 
       setPredictions(result);
-      console.log(result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -102,13 +101,16 @@ const Capture = (props) => {
 
   useEffect(() => {
     (async function checkTfReady() {
+      console.log("1");
       await tf.ready();
     })();
     setIsTfReady(true);
     (async function checkModelReady() {
+      console.log("2");
       const mobilenetModel = await mobilenet.load();
       setModel(mobilenetModel);
     })();
+    console.log("3");
     setIsModelReady(true);
 
     getPermissionAsync();
@@ -116,6 +118,7 @@ const Capture = (props) => {
 
   useEffect(() => {
     if (image) {
+      console.log("classifying...");
       classifyImage();
     }
   }, [image]);
