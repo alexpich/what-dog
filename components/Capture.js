@@ -53,8 +53,8 @@ const Capture = (props) => {
   const [loading, setLoading] = useState(false);
 
   const selectImage = async () => {
-    console.log("Selecting Image...");
     try {
+      console.log("Selecting Image...");
       let response = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: false,
@@ -74,7 +74,6 @@ const Capture = (props) => {
   const classifyImage = async () => {
     try {
       setLoading(true);
-
       const fileUri = Image.resolveAssetSource(image);
       const imgB64 = await FileSystem.readAsStringAsync(fileUri.uri, {
         encoding: FileSystem.EncodingType.Base64,
@@ -87,6 +86,7 @@ const Capture = (props) => {
       setPredictions(result);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     } finally {
       setLoading(false);
     }
@@ -101,17 +101,17 @@ const Capture = (props) => {
 
   useEffect(() => {
     (async function checkTfReady() {
-      console.log("1");
       await tf.ready();
+      console.log("tfReady");
     })();
     setIsTfReady(true);
     (async function checkModelReady() {
-      console.log("2");
       const mobilenetModel = await mobilenet.load();
       setModel(mobilenetModel);
+      console.log("modelSet");
+      setIsModelReady(true);
+      console.log("modelReady");
     })();
-    console.log("3");
-    setIsModelReady(true);
 
     getPermissionAsync();
   }, []);
@@ -139,7 +139,7 @@ const Capture = (props) => {
             )}
           </TouchableOpacity>
           {isModelReady && image && predictions && (
-            <SafeAreaView style={styles.listHeight}>
+            <View style={styles.listHeight}>
               {loading === true ? (
                 <ActivityIndicator size="small" color={Colors.secondary} />
               ) : (
@@ -147,14 +147,13 @@ const Capture = (props) => {
                   data={predictions}
                   renderItem={renderItem}
                   keyExtractor={(item) => item.className}
-                  height
                 />
               )}
-            </SafeAreaView>
+            </View>
           )}
         </View>
       ) : (
-        <ActivityIndicator size="small" color={Colors.secondary} />
+        <ActivityIndicator size="small" color={Colors.tertiary} />
       )}
     </View>
   );
