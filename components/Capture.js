@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   listHeight: {
-    height: 50,
+    height: 100,
   },
 });
 

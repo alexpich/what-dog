@@ -13,18 +13,19 @@ import GroupsScreen from "../screens/user/GroupsScreen";
 import ProfileScreen from "../screens/user/ProfileScreen";
 import Colors from "../constants/Colors";
 
+const defaultStackNavOptions = {
+  headerStyle: {
+    backgroundColor: Platform.OS === "android" ? Colors.primary : "",
+  },
+  headerTintColor: Platform.OS === "android" ? Colors.white : Colors.primary,
+};
+
 const CaptureNavigator = createStackNavigator(
   {
     Capture: CaptureScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? Colors.white : Colors.primary,
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -33,13 +34,7 @@ const FavoritesNavigator = createStackNavigator(
     Favorites: FavoritesScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? Colors.white : Colors.primary,
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -48,13 +43,7 @@ const DogInfoNavigator = createStackNavigator(
     DogInfo: DogInfoScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? Colors.white : Colors.primary,
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -63,13 +52,7 @@ const GroupsNavigator = createStackNavigator(
     Groups: GroupsScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? Colors.white : Colors.primary,
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
@@ -78,13 +61,7 @@ const ProfileNavigator = createStackNavigator(
     Profile: ProfileScreen,
   },
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" ? Colors.white : Colors.primary,
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
